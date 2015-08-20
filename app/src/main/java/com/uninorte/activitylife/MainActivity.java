@@ -7,11 +7,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.NumberPicker;
 
 
 public class MainActivity extends ActionBarActivity {
 
-    private String TAG = "LIFE1";
+    private String TAG = "ActivityCycle1";
+    private String VALUE_STATE = "value_state";
+    private Integer mValue;
+    private NumberPicker mNumberPicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +23,36 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         Log.d(TAG, "onCreate");
+
+        NumberPicker mNumberPicker=
+                (NumberPicker) findViewById(R.id.numberPicker);
+        mNumberPicker.setMaxValue(9);
+        mNumberPicker.setMinValue(0);
+        mNumberPicker.setWrapSelectorWheel(false);
+
+        if (savedInstanceState == null) {
+            Log.d(TAG, "onCreate, restart values");
+            mValue = 0;
+        } else {
+            mValue = savedInstanceState.getInt(VALUE_STATE);
+            Log.d(TAG, "onCreate, restoring value to "+mValue);
+        }
+
+        mNumberPicker.setValue(mValue);
+        mNumberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+
+        mNumberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                Log.d(TAG, "onCreate, mNumberPicker value "+i);
+                mValue = i+1;
+            }
+        });
+    }
+
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putInt(VALUE_STATE, mValue);
+        super.onSaveInstanceState(savedInstanceState);
     }
 
     @Override
@@ -63,27 +97,6 @@ public class MainActivity extends ActionBarActivity {
         Log.d(TAG, "onDestroy");
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     public void changeActivity(View view) {
         Intent intent = new Intent(this, MainActivity2.class);
