@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class MainActivity2 extends ActionBarActivity {
@@ -63,4 +64,9 @@ public class MainActivity2 extends ActionBarActivity {
         Log.d(TAG, "onDestroy");
     }
 
+    public void onClickReturn(View view) {
+
+        finish();
+
+    }
 }
