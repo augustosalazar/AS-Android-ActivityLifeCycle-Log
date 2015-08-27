@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.NumberPicker;
 
 
@@ -16,6 +18,9 @@ public class MainActivity extends ActionBarActivity {
     private String VALUE_STATE = "value_state";
     private Integer mValue;
     private NumberPicker mNumberPicker;
+    private Animation mAnimTranslate;
+    private Animation mAnimRotate;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +28,9 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         Log.d(TAG, "onCreate");
+        //http://android-er.blogspot.com/2012/02/apply-animation-on-button.html//
+        mAnimTranslate = AnimationUtils.loadAnimation(this, R.anim.anim_translate);
+        mAnimRotate = AnimationUtils.loadAnimation(this, R.anim.anim_rotate);
 
         NumberPicker mNumberPicker=
                 (NumberPicker) findViewById(R.id.numberPicker);
@@ -99,6 +107,7 @@ public class MainActivity extends ActionBarActivity {
 
 
     public void changeActivity(View view) {
+        view.startAnimation(mAnimRotate);
         Intent intent = new Intent(this, MainActivity2.class);
         startActivity(intent);
 
